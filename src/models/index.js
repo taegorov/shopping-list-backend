@@ -5,8 +5,8 @@ const { Sequelize, DataTypes } = require('sequelize');
 const userSchema = require('./user.schema.js');
 const listSchema = require('./list.schema.js')
 
-const DATABASE_URL = process.env.DATABASE_URL || 'sqlite:memory:';
-// const DATABASE_URL = 'postgres://postgres@localhost:5432';
+// const DATABASE_URL = process.env.DATABASE_URL || 'sqlite:memory:';
+const DATABASE_URL = 'postgres://postgres@localhost:5432/shoppinglist';
 
 // below: throw a !== instead of ===  if you want to connect to ElephantSQL database LOCALLY (instead of local)
 // for PRODUCTION, use ===
@@ -16,12 +16,12 @@ const DATABASE_URL = process.env.DATABASE_URL || 'sqlite:memory:';
 
 // Heroku needs this to run Sequelize
 let sequelize = new Sequelize(DATABASE_URL, {
-  dialectOptions: {
-    ssl: {
-      require: false,
-      rejectUnauthorized: false,
-    }
-  }
+  // dialectOptions: {
+  //   ssl: {
+  //     require: false,
+  //     rejectUnauthorized: false,
+  //   }
+  // }
 });
 
 const user = userSchema(sequelize, DataTypes);
