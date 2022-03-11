@@ -26,6 +26,7 @@ async function create(request, response) {
 
 async function getAll(request, response) {
   const allUsers = await model.user.findAll();
+  console.log('all users: ', allUsers)
 
   response.status(200).send(allUsers)
 }

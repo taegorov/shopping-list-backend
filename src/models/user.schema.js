@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    role: {
+      type: DataTypes.ENUM('reader', 'user'),
+      defaultValue: 'user',
+    },
     // TODO: figure out how this works in local storage/cookies
     token: {
       type: DataTypes.VIRTUAL,
