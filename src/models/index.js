@@ -27,22 +27,19 @@ let sequelize = new Sequelize(DATABASE_URL, {
 const user = userSchema(sequelize, DataTypes);
 const list = listSchema(sequelize, DataTypes);
 
+
 // --- if you need to add a new column or whatevs --- //
 // list.sync({ alter: true })
 
 // --- if you need to drop the table --- //
-// list.drop();
-// console.log("list table dropped!");
+// user.drop();
+// console.log("user table dropped!");
 
-// === === below will set up relation between tables === === //
-// user.hasMany(services, { foreignKey: 'freelancer', sourceKey: 'id' });
-// services.belongsTo(user, { foreignKey: 'freelancer', targetKey: 'id' });
+user.hasMany(list, { foreignKey: 'userId', sourceKey: 'id' })
+list.belongsTo(user, { foreignKey: 'userId', targetKey: 'id' })
 
-// services.hasMany(ratings, { foreignKey: 'service_id', sourceKey: 'id' });
-// ratings.belongsTo(services, { foreignKey: 'service_id', targetKey: 'id' });
-
-// user.hasMany(ratings, { foreignKey: 'user_id', sourceKey: 'id' });
-// ratings.belongsTo(user, { foreignKey: 'user_id', targetKey: 'id' });
+// customers.hasMany(notes, { foreignKey: 'customerId', sourceKey: 'id' });
+// notes.belongsTo(customers, { foreignKey: 'customerId', targetKey: 'id' });
 
 
 module.exports = {
