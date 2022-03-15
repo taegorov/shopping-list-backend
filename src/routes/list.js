@@ -36,8 +36,12 @@ async function create(req, res) {
 
 async function getAll(req, res) {
   // console.log(db.list)
-  console.log('logged in user ID is: ', req.user.dataValues.id)
-  const allLists = await db.list.findAll({ where: { userId: req.user.dataValues.id } });
+  // === === THIS IS FOR WHEN AUTH IS WORKING ON FRONT END === === //
+  // console.log('logged in user ID is: ', req.user.dataValues.id)
+  console.log('logged in user ID is: ', req.user.id)
+  // === === THIS IS FOR WHEN AUTH IS WORKING ON FRONT END === === //
+  // const allLists = await db.list.findAll({ where: { userId: req.user.dataValues.id } });
+  const allLists = await db.list.findAll({ where: { userId: req.user.id } });
   // console.log(allLists)
 
   res.status(200).send({ success: true, data: allLists })
@@ -67,7 +71,7 @@ async function update(req, res) {
 
 async function remove(req, res) {
   const { itemId } = req.params
-  const deletedItem = await db.list.destroy({ where: { id: itemId, userId: req.user.dataValues.id } });
+  const deletedItem = await db.list.destroy({ where: { id: itemId, } });
 
   res.status(200).send({ success: true, data: deletedItem })
 }
