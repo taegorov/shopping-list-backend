@@ -6,7 +6,9 @@ const userSchema = require('./user.schema.js');
 const listSchema = require('./list.schema.js')
 
 // const DATABASE_URL = process.env.DATABASE_URL || 'sqlite:memory:';
-const DATABASE_URL = 'postgres://postgres@localhost:5432/shoppinglist';
+// const DATABASE_URL = 'postgres://postgres@localhost:5432/shoppinglist';
+const DATABASE_URL = process.env.NODE_ENV === 'production' ? process.env.DATABASE_PROD : process.env.DATABASE_DEV
+
 
 // below: throw a !== instead of ===  if you want to connect to ElephantSQL database LOCALLY (instead of local)
 // for PRODUCTION, use ===
