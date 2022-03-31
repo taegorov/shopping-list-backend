@@ -23,7 +23,7 @@ async function create(req, res) {
   // console.log('request user 🥩', request.user)
   const { productName, quantity, category, price, notes, image } = req.body
   console.log({ productName, quantity, category, price, notes, image })
-  const newList = await db.list.create({ userId: req.user.dataValues.id, productName, quantity, category, price, notes, image })
+  const newList = await db.list.create({ userId: req.user.id, productName, quantity, category, price, notes, image })
   console.log('new list: ', newList)
 
   res.status(200).send({ success: true, data: newList, message: true ? 'Created!' : 'Error Creating!' });
@@ -36,8 +36,12 @@ async function create(req, res) {
 
 async function getAll(req, res) {
   // console.log(db.list)
-  console.log('logged in user ID is: ', req.user.dataValues.id)
-  const allLists = await db.list.findAll({ where: { userId: req.user.dataValues.id } });
+  // === === dataValues not necessary anymore because it's added to bearer.js (validuser.dataValues) === === //
+  // console.log('logged in user ID is: ', req.user.dataValues.id)
+  console.log('logged in user ID is: ', req.user.id)
+  // === === dataValues not necessary anymore because it's added to bearer.js (validuser.dataValues) === === //
+  // const allLists = await db.list.findAll({ where: { userId: req.user.dataValues.id } });
+  const allLists = await db.list.findAll({ where: { userId: req.user.id } });
   // console.log(allLists)
 
   res.status(200).send({ success: true, data: allLists })
@@ -46,7 +50,7 @@ async function getAll(req, res) {
 async function getOne(req, res) {
   const { itemId } = req.params
   console.log('REQ DOT USER: ', req.user)
-  const singleItem = await db.list.findOne({ where: { id: itemId, userId: req.user.dataValues.id } });
+  const singleItem = await db.list.findOne({ where: { id: itemId, userId: req.user.id } });
 
   res.status(200).send({ success: true, data: singleItem })
 }
@@ -54,12 +58,12 @@ async function getOne(req, res) {
 async function update(req, res) {
   const { itemId } = req.params
   const { productName, quantity, category, price, notes, image } = req.body
-  const oneItem = await db.list.findOne({ where: { id: itemId, userId: req.user.dataValues.id } });
+  const oneItem = await db.list.findOne({ where: { id: itemId, userId: req.user.id } });
   if (!oneItem) {
     return res.status(409).send({ success: false, data: [], message: 'Item Doesn\'t Exist' })
   }
 
-  const updatedList = await oneItem.update({ productName, quantity, category, price, notes, image }, { where: { id: itemId, userId: req.user.dataValues.id } })
+  const updatedList = await oneItem.update({ productName, quantity, category, price, notes, image }, { where: { id: itemId, userId: req.user.id } })
   console.log('updated list: ', updatedList)
 
   res.status(200).send({ success: true, data: updatedList })
@@ -67,7 +71,7 @@ async function update(req, res) {
 
 async function remove(req, res) {
   const { itemId } = req.params
-  const deletedItem = await db.list.destroy({ where: { id: itemId, userId: req.user.dataValues.id } });
+  const deletedItem = await db.list.destroy({ where: { id: itemId, } });
 
   res.status(200).send({ success: true, data: deletedItem })
 }

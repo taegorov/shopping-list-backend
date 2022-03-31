@@ -5,8 +5,8 @@ const { user } = require('../../models');
 
 module.exports = async (req, res, next) => {
 
+  console.log('req headers: ', req.headers)
   if (!req.headers.authorization) { return _authError(); }
-
   let basic = req.headers.authorization.split(' ').pop();
   let [userName, pass] = base64.decode(basic).split(':');
   try {
