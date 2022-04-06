@@ -36,6 +36,10 @@ module.exports = (sequelize, DataTypes) => {
     aisle: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    completed: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
     }
   })
 }
