@@ -57,13 +57,13 @@ async function getOne(req, res) {
 
 async function update(req, res) {
   const { itemId } = req.params
-  const { productName, quantity, category, price, notes, image } = req.body
+  const { productName, quantity, category, price, notes, image, completed } = req.body
   const oneItem = await db.list.findOne({ where: { id: itemId, userId: req.user.id } });
   if (!oneItem) {
     return res.status(409).send({ success: false, data: [], message: 'Item Doesn\'t Exist' })
   }
 
-  const updatedList = await oneItem.update({ productName, quantity, category, price, notes, image }, { where: { id: itemId, userId: req.user.id } })
+  const updatedList = await oneItem.update({ productName, quantity, category, price, notes, image, completed }, { where: { id: itemId, userId: req.user.id } })
   console.log('updated list: ', updatedList)
 
   res.status(200).send({ success: true, data: updatedList })
