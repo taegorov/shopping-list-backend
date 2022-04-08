@@ -21,9 +21,9 @@ async function create(req, res) {
   // body expects: name, quantity, category, price, notes, image
   // console.log('request body 🍕', request.body)
   // console.log('request user 🥩', request.user)
-  const { productName, quantity, category, price, notes, image } = req.body
-  console.log({ productName, quantity, category, price, notes, image })
-  const newList = await db.list.create({ userId: req.user.id, productName, quantity, category, price, notes, image })
+  const { productName, quantity, category, price, notes, image, completed } = req.body
+  console.log({ productName, quantity, category, price, notes, image, completed })
+  const newList = await db.list.create({ userId: req.user.id, productName, quantity, category, price, notes, image, completed })
   console.log('new list: ', newList)
 
   res.status(200).send({ success: true, data: newList, message: true ? 'Created!' : 'Error Creating!' });
