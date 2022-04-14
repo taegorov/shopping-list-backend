@@ -17,22 +17,31 @@ router.put('/listitem/:itemId', authenticateBearer, update);
 router.delete('/listitem/:itemId', authenticateBearer, remove);
 // === === === === === === //
 
-async function create(req, res) {
-  // body expects: name, quantity, category, price, notes, image
-  // console.log('request body 🍕', request.body)
-  // console.log('request user 🥩', request.user)
-  const { productName, quantity, category, price, notes, image, completed } = req.body
-  console.log({ productName, quantity, category, price, notes, image, completed })
-  const newList = await db.list.create({ userId: req.user.id, productName, quantity, category, price, notes, image, completed })
-  console.log('new list: ', newList)
+// async function create(req, res) {
+//   // body expects: name, quantity, category, price, notes, image, completed
+//   // console.log('request body 🍕', request.body)
+//   // console.log('request user 🥩', request.user)
+//   const { productName, quantity, category, price, notes, image, completed } = req.body
+//   console.log({ productName, quantity, category, price, notes, image, completed })
+//   const newList = await db.list.create({ userId: req.user.id, productName, quantity, category, price, notes, image, completed })
+//   console.log('new list: ', newList)
 
+//   res.status(200).send({ success: true, data: newList, message: true ? 'Created!' : 'Error Creating!' });
+// }
+
+
+// == this new create func is now allowing BULK create == //
+async function create(req, res) {
+  console.log('REC DOT BODY IS: ', req.body)
+  const listItems = req.body.map(item => {
+    return { userId: req.user.id, ...item }
+  });
+  console.log('LIST ITEMS: ', listItems);
+  // const { productName, quantity, category, price, notes, image, completed } = req.body
+  const newList = await db.list.bulkCreate(listItems);
+  console.log('NEW LIST IS: ', newList)
   res.status(200).send({ success: true, data: newList, message: true ? 'Created!' : 'Error Creating!' });
 }
-
-// const servicesObject = request.body;
-// servicesObject.freelancer = request.user.dataValues.id
-// const servicesData = await data.services.create(servicesObject);
-// console.log('SERVICES DATA 🥐', servicesData)
 
 async function getAll(req, res) {
   // console.log(db.list)
