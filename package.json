@@ -18,5 +18,18 @@
     "sequelize": "^6.17.0",
     "sqlite": "^4.0.25",
     "sqlite3": "^5.0.2"
-  }
+  },
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taegorov/shopping-list-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/taegorov/shopping-list-backend/issues"
+  },
+  "homepage": "https://github.com/taegorov/shopping-list-backend#readme"
 }
