@@ -12,7 +12,7 @@ router.get('/listitem', authenticateBearer, getAll);
 router.get('/listitem/:itemId', authenticateBearer, getOne);
 router.put('/listitem/:itemId', authenticateBearer, update);
 router.delete('/listitem/:itemId', authenticateBearer, remove);
-router.delete('/:userId', authenticateBearer, removeAllById);
+router.delete('/list/:userId', authenticateBearer, removeAllById);
 
 // async function create(req, res) {
 //   // body expects: name, quantity, category, price, notes, image, completed
