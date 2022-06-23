@@ -3,19 +3,16 @@
 const express = require('express');
 const db = require('../models/index.js');
 const authenticateBearer = require('../auth/middleware/bearer')
-
-// const data = require('../models/index.js');
-// const { QueryTypes } = require('sequelize');
 const router = express.Router();
 
 
-// === === routers === === //
+
 router.post('/listitem', authenticateBearer, create)
 router.get('/listitem', authenticateBearer, getAll);
 router.get('/listitem/:itemId', authenticateBearer, getOne);
 router.put('/listitem/:itemId', authenticateBearer, update);
 router.delete('/listitem/:itemId', authenticateBearer, remove);
-// === === === === === === //
+router.delete('/:userId', authenticateBearer, removeAllById);
 
 // async function create(req, res) {
 //   // body expects: name, quantity, category, price, notes, image, completed
@@ -43,6 +40,7 @@ async function create(req, res) {
   res.status(200).send({ success: true, data: newList, message: true ? 'Created!' : 'Error Creating!' });
 }
 
+
 async function getAll(req, res) {
   // console.log(db.list)
   // === === dataValues not necessary anymore because it's added to bearer.js (validuser.dataValues) === === //
@@ -56,6 +54,7 @@ async function getAll(req, res) {
   res.status(200).send({ success: true, data: allLists })
 }
 
+
 async function getOne(req, res) {
   const { itemId } = req.params
   console.log('REQ DOT USER: ', req.user)
@@ -63,6 +62,7 @@ async function getOne(req, res) {
 
   res.status(200).send({ success: true, data: singleItem })
 }
+
 
 async function update(req, res) {
   const { itemId } = req.params
@@ -78,11 +78,24 @@ async function update(req, res) {
   res.status(200).send({ success: true, data: updatedList })
 }
 
+
 async function remove(req, res) {
   const { itemId } = req.params
+  console.log(itemId, 'IS THE ITEM ID')
   const deletedItem = await db.list.destroy({ where: { id: itemId, } });
 
   res.status(200).send({ success: true, data: deletedItem })
+}
+
+
+async function removeAllById(req, res) {
+  const { userId } = req.params
+  console.log(userId, 'IS THE USER ID')
+  // const deletedItems = await db.list.destroy({ where: { userId: req.user.id } });
+  const deletedItems = await db.list.destroy({ where: { userId: userId } });
+
+
+  res.status(200).send({ success: true, data: deletedItems })
 }
 
 module.exports = router;
