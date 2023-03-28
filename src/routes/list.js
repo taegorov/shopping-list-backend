@@ -94,7 +94,6 @@ async function removeAllById(req, res) {
   // const deletedItems = await db.list.destroy({ where: { userId: req.user.id } });
   const deletedItems = await db.list.destroy({ where: { userId: userId } });
 
-
   res.status(200).send({ success: true, data: deletedItems })
 }
 
